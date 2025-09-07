@@ -58,6 +58,8 @@ public class Carro {
                     case 1 -> trocarMarcha(entrada);
                     case 2 -> acelerar();
                     case 3 -> frear();
+                    case 4 -> virarADireita();
+                    case 5 -> virarAEsquerda();
                     case 6 -> verificarVelocidade();
                     case 7 -> desligarCarro();
                     default -> System.out.println("Opção inválida!");
@@ -107,6 +109,22 @@ public class Carro {
         if(velocidade >= 0){
         velocidade -= 5;
         System.out.println("Velocidade atual: " + velocidade);
+        }
+    }
+
+    public void virarAEsquerda(){
+        if(velocidade >= 1 && velocidade <= 40){
+            System.out.println("Virando a esquerda!");
+        }else{
+            System.out.println("Está muito rapido. . . reduza a velocidade!");
+        }
+    }
+
+    public void virarADireita(){
+        if(velocidade >= 1 && velocidade <= 40){
+            System.out.println("Virando a Direita!");
+        }else{
+            System.out.println("Está muito rapido. . . reduza a velocidade!");
         }
     }
 
