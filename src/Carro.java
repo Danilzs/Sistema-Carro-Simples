@@ -2,9 +2,24 @@ import java.util.Scanner;
 
 public class Carro {
     private boolean ligado = false;
-    private boolean desligado = true;
     private int velocidade = 0;
-    private String marcha;
+    private String marcha = "Neutro";
+
+    private static final String[] MARCHAS = {
+            "Neutro", "Primeira marcha", "Segunda marcha", "Terceira marcha",
+            "Quarta marcha", "Quinta marcha", "Sexta marcha"
+    };
+
+    //Faixa de velocidade permitida, um array contendo um minimo e um maximo de velocidade.
+    private static final int[][] LIMITES_MARCHA ={
+            {0,0},
+            {0,20},
+            {21,40},
+            {41,60},
+            {61,80},
+            {81,100},
+            {101,120}
+    };
 
 
     public void operacoes() {
@@ -40,7 +55,7 @@ public class Carro {
                 int opcao2 = entrada.nextInt();
 
                 switch (opcao2) {
-                    case 1 -> trocarMarcha();
+                    case 1 -> trocarMarcha(entrada);
                     case 2 -> acelerar();
                     case 3 -> frear();
                     case 6 -> verificarVelocidade();
@@ -69,130 +84,62 @@ public class Carro {
         return ligado;
     }
 
-    public boolean desligarCarro() {
-        if(velocidade == 0) {
-            System.out.println("Desligando o carro . . . !");
-            System.out.println("Carro desligado!");
+    public void desligarCarro() {
+        if (velocidade == 0) {
             ligado = false;
-            desligado = true;
-
-            return desligado;
+            System.out.println("Carro desligado !");
+        } else {
+            System.out.println("Pare o carro antes de desligar!");
         }
-        return desligado;
     }
 
     public void acelerar(){
-        int velocidadeAtual = velocidade + 5;
-        velocidade = velocidadeAtual;
+        velocidade += 5;
         System.out.println("Velocidade atual: " + velocidade);
 
         if(velocidade > 20 && marcha.equals("Primeira marcha")) {
             System.out.println("Atenção! Você está indo muito rapido! Reduza a velocidade ou passe a marcha!");
         }
-
         }
 
         public void frear(){
 
-        int velocidadeAtual = velocidade - 5;
-        velocidade = velocidadeAtual;
+        if(velocidade >= 0){
+        velocidade -= 5;
         System.out.println("Velocidade atual: " + velocidade);
         }
-
-        public void trocarMarcha(){
-        Scanner entrada = new Scanner(System.in);
-            marcha = "Neutro";
-            System.out.println("Marcha atual: " + marcha);
-            System.out.println("Passar pra qual marcha?");
-            System.out.println("1 - Primeira marcha\n"
-            + "2 - Segunda marcha\n"
-            + "3 - Terceira marcha\n"
-            + "4 - Quatro marcha\n"
-            + "5 - Cinco marcha\n"
-            + "6 - Sexta marcha\n"
-            + "7 - Sair\n");
-
-             var opcao = entrada.nextInt();
-
-             if(marcha == "Neutro"){
-                 switch (opcao){
-                     case 1 -> {
-                         if(velocidade <= 20) {
-                             marcha = "Primeira marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         } else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-                     }
-                     case 2 -> {
-                         if(velocidade >= 21 && velocidade <= 40) {
-                             marcha = "Segunda marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         }else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-
-                     }
-                     case 3 -> {
-
-                         if(velocidade >= 41 && velocidade <= 60) {
-                             marcha = "Terceira marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         }else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-
-                     }
-                     case 4 -> {
-                         if(velocidade >= 61 && velocidade <= 80) {
-
-                             marcha = "Quarta marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         }else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-
-                     }
-                     case 5 -> {
-
-                         if(velocidade >= 81 && velocidade <= 100) {
-
-                             marcha = "Quinta marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         }
-                         else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-                     }
-                     case 6 -> {
-                         if(velocidade >= 101 && velocidade <= 120) {
-                             marcha = "Sexta marcha";
-                             System.out.println("Trocando de marcha para . . . ");
-                             System.out.println(marcha);
-                             System.out.println("Velocidade = " + velocidade);
-                         }else {
-                             System.out.println("Aumente a velocidade! no momento você está a " + velocidade + "Km/h");
-                         }
-
-                     }
-                     case 7 -> {
-                         System.out.println("Voltando ao menu de operações!");
-                         return;
-                     }
-                 }
-             }
-
     }
+
+    public void trocarMarcha(Scanner entrada) {
+        System.out.println("Marcha atual: " + marcha);
+        System.out.println("Escolha uma nova marcha: ");
+
+        /// Percorre o array de marchas, i = posição da marcha no array. Incrementa a posição e o index do array.
+        for (int i = 1; i < MARCHAS.length; i++) {
+            System.out.println(i + " - " + MARCHAS[i]);
+        }
+        System.out.println("7 - Sair");
+
+        int opcao = entrada.nextInt();
+
+        if (opcao >= 1 && opcao <= 6) {
+            int min = LIMITES_MARCHA[opcao][0];
+            int max = LIMITES_MARCHA[opcao][1];
+
+            if (velocidade >= min && velocidade <= max) {
+                marcha = MARCHAS[opcao];
+                System.out.println("Marcha atual: " + marcha);
+            } else {
+                System.out.println("⚠️ Velocidade incompatível (" + velocidade + " Km/h) para essa marcha!");
+            }
+        } else if (opcao == 7) {
+            System.out.println("Voltando ao menu de operações!");
+            return;
+        } else {
+            System.out.println("Opção inválida!");
+        }
+    }
+
 
     public void verificarVelocidade(){
         System.out.println("Velocidade atual: " + velocidade + "Km/h");
